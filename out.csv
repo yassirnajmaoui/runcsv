@@ -1,5 +1,9 @@
 A,B,A+B
-45,12,57
-98,1,99
+45,12.8,57.8
+5,1,6
 100,20,120
 1,20,21
+Average:,13.45,None
+Sum:,53.8,[12  1 20 20]
+Re-did sum from a numpy array:,53,
+Type of that array:,int32,

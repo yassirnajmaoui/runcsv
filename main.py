@@ -45,7 +45,7 @@ parse_refs_regex = re.compile("(\*)?{(.*?),(.*?)}")
 for row in s:
     j=0
     for item in row:
-        if item[0] == '=':
+        if item is not "" and item[0] == '=':
             s[i][j] = item[1:] # remove the "=" in the string
             current_s = s[i][j]
             while True:
@@ -74,7 +74,7 @@ for row in s:
                     # Correct position for next replacement (Because you cannot reverse a callable_terator)
                     delta = len(resulting_val) - (matched_span[1]-matched_span[0])
             p[i][j] = current_s
-            exec("o[i][j] = "+p[i][j]) # Execution of the generated command
+            o[i][j] = eval(p[i][j]) # Execution of the generated command
             f[i][j] = str(o[i][j])
         else:
             p[i][j] = s[i][j]
@@ -83,10 +83,9 @@ for row in s:
         j+=1
     i+=1
 
-
-
 with open(output_file, 'w') as file:
-      
     # using csv.writer method from CSV package
     writer = csv.writer(file)
     writer.writerows(f)
+
+print(f)
