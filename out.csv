@@ -5,5 +5,9 @@ A,B,A+B
 1,20,21
 Average:,13.45,None
 Sum:,53.8,[12  1 20 20]
-Re-did sum from a numpy array:,53,
+Re-did sum from the numpy array:,53,NI
 Type of that array:,int32,
+86,86,
+,86,
+,86,
+,86,
