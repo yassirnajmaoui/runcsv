@@ -1,2 +1,3 @@
 # runcsv
 A way to make a csv file do anything using python commands
+There's so much to write here...
