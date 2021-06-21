@@ -1,6 +1,8 @@
 from os import set_blocking
 import sys
+
 from PyQt5.QtCore import(
+	Qt,
 	QModelIndex,
 	QRect,
 	QItemSelectionModel
@@ -17,10 +19,10 @@ from PyQt5.QtWidgets import (
 	QVBoxLayout,
 	QPushButton,
 	QWidget,
-	QTableView,
 	QTableWidget,
 	QLineEdit,
 	QTableWidgetItem,
+	QTableWidgetSelectionRange
 )
 
 # Priorities:
@@ -122,18 +124,19 @@ class MainWindow(QWidget):
 		self.move(qtRectangle.topLeft())
 		#self.setGeometry(avGeo)
 
+		# Table
+		self.tableWidget = QTableWidget(self)
+		self.tableWidget.setRowCount(nbRows)
+		self.tableWidget.setColumnCount(nbCols)
+		self.tableWidget.setHorizontalHeaderLabels([str(i) for i in range(nbRows)])
+		self.tableWidget.setVerticalHeaderLabels([str(i) for i in range(nbCols)])
+		self.tableWidget.currentCellChanged.connect(self.onCellChanged)
+
 		# Formula editor
-		self.formulaEdit = QLineEdit()
+		self.formulaEdit = FormulaEdit(self, self)
 		self.formulaEdit.textChanged.connect(self.onFormulaChange)
 		self.formulaEdit.returnPressed.connect(self.formulaReturnPress)
 
-		# Table
-		self.tableView = QTableWidget(self)
-		self.tableView.setRowCount(nbRows)
-		self.tableView.setColumnCount(nbCols)
-		self.tableView.setHorizontalHeaderLabels([str(i) for i in range(nbRows)])
-		self.tableView.setVerticalHeaderLabels([str(i) for i in range(nbCols)])
-		self.tableView.clicked.connect(self.onCellClicked)
 
 		# Run button
 		self.runBtn = QPushButton("Run")
@@ -143,15 +146,16 @@ class MainWindow(QWidget):
 		layout = QVBoxLayout()
 		# Add widgets to the layout
 		layout.addWidget(self.formulaEdit)
-		layout.addWidget(self.tableView)
+		layout.addWidget(self.tableWidget)
 		layout.addWidget(self.runBtn, 2)
 		# Set the layout on the application's window
 		self.setLayout(layout)
-		print(self.children())
 	
-	def onCellClicked(self, index=None):
-		self.ci = index.row()
-		self.cj = index.column()
+	def onCellChanged(self, currentRow, currentColumn, previousRow, previousColumn):
+		# TODO: There should be a way to press Escape and return back to where we were
+		self.affectCell(previousRow, previousColumn)
+		self.ci = currentRow
+		self.cj = currentColumn
 		self.formulaEdit.setFocus()
 		self.formulaEdit.setText(s[self.ci][self.cj])
 		print(self.ci,self.cj)
@@ -159,10 +163,24 @@ class MainWindow(QWidget):
 	def onFormulaChange(self):
 		s[self.ci][self.cj] = self.formulaEdit.text()
 	
+	def down(self):
+		self.ci+=1
+		self.tableWidget.setCurrentCell(self.ci,self.cj)
+
+	def up(self):
+		self.ci-=1
+		self.tableWidget.setCurrentCell(self.ci,self.cj)
+
+	def right(self):
+		self.cj+=1
+		self.tableWidget.setCurrentCell(self.ci,self.cj)
+
+	def left(self):
+		self.cj-=1
+		self.tableWidget.setCurrentCell(self.ci,self.cj)
+
 	def formulaReturnPress(self, key=None):
-		self.affectCell(self.ci,self.cj)
-		#self.ci+=1
-		#self.tableView.setSelection(QRect(self.ci,self.cj,self.ci+1,self.cj+1), QItemSelectionModel.SelectionFlag.SelectCurrent)
+		self.down()
 	
 	def runSheet(self):
 		for i in np.arange(s.shape[0]):
@@ -173,10 +191,25 @@ class MainWindow(QWidget):
 		try:
 			process_cell(i,j)
 			newitem = QTableWidgetItem(f[i][j])
-			self.tableView.setItem(i,j, newitem)
+			self.tableWidget.setItem(i,j, newitem)
 		except:
 			print("There was an error in cell {"+str(i)+","+str(j)+"}")
 
+# TODO: Add Tab function
+
+
+class FormulaEdit(QLineEdit):
+	def __init__(self, editor : MainWindow, parent):
+		QLineEdit.__init__(self, parent)
+		self.editor = editor
+	
+	def keyPressEvent(self, event):
+		key = event.key()
+		if key == Qt.Key_Up:
+			self.editor.up()
+		elif key == Qt.Key_Down:
+			self.editor.down()
+		QLineEdit.keyPressEvent(self, event)
 
 
 if __name__ == "__main__":
