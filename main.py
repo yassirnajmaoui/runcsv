@@ -133,7 +133,6 @@ class MainWindow(QWidget):
 
 # TODO: Add Tab function
 
-
 class FormulaEdit(QLineEdit):
 	def __init__(self, editor : MainWindow, parent):
 		QLineEdit.__init__(self, parent)
@@ -145,6 +144,10 @@ class FormulaEdit(QLineEdit):
 			self.editor.up()
 		elif key == Qt.Key_Down:
 			self.editor.down()
+		elif key == Qt.Key_Left and self.editor.formulaEdit.cursorPosition() == 0:
+			self.editor.left()
+		elif key == Qt.Key_Right and self.editor.formulaEdit.cursorPosition() == len(self.editor.formulaEdit.text()):
+			self.editor.right()
 		QLineEdit.keyPressEvent(self, event)
 
 

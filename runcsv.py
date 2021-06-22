@@ -41,9 +41,7 @@ def parse_cell(source_str, i, j):
 			resulting_i = eval(referenced_i_str)
 			resulting_j = eval(referenced_j_str)
 			if(ref_groups[0] == '*'):
-				resulting_val = s[resulting_i][resulting_j]
-				if resulting_val[0] == "=":
-					resulting_val = resulting_val[1:]
+				resulting_val = p[resulting_i][resulting_j]
 			else:
 				resulting_val = str(f[resulting_i][resulting_j])
 			matched_span = match.span()
