@@ -7,6 +7,7 @@ from matplotlib import pyplot as plt
 nbRows = 10
 nbCols = 10
 
+global s,p,o,f
 parse_refs_regex = re.compile("(\*)?{(.*?),(.*?)}")
 s = np.ndarray([nbCols,nbRows], dtype=object)
 s.fill("")
@@ -15,14 +16,14 @@ o = np.ndarray(s.shape, dtype=object)
 f = np.ndarray(s.shape, dtype=object)
 
 def check_pos(i,j):
-	if(i<0 or j<0 or i>nbRows or j>nbCols):
+	if(i<0 or j<0 or i>s.shape[0] or j>s.shape[1]):
 		return False
 	return True
 
-def parse_cell(source_str, i, j):
+def parse_cell(i, j):
 	if(not check_pos(i,j)):
 		return
-	current_s = source_str
+	current_s = s[i][j][1:] # remove the "=" in the string
 	while True:
 		delta = 0
 		matches = list() # List of matches
@@ -54,8 +55,7 @@ def parse_cell(source_str, i, j):
 def process_cell(i,j):
 	item = s[i][j]
 	if item != "" and item[0] == '=':
-		curr_s = item[1:] # remove the "=" in the string
-		p[i][j] = parse_cell(curr_s,i,j)
+		p[i][j] = parse_cell(i,j)
 		o[i][j] = eval(p[i][j]) # Execution of the generated command
 		f[i][j] = str(o[i][j])
 	else:
