@@ -2,14 +2,11 @@ import numpy as np
 import re
 import csv
 from matplotlib import pyplot as plt
+import random
 
-# Initial size
-nbRows = 10
-nbCols = 10
-
-global s,p,o,f
 parse_refs_regex = re.compile("(\*)?{(.*?),(.*?)}")
-s = np.ndarray([nbCols,nbRows], dtype=object)
+# Initial size 10x10
+s = np.ndarray([10,10], dtype=object)
 s.fill("")
 p = np.ndarray(s.shape, dtype=object)
 o = np.ndarray(s.shape, dtype=object)
