@@ -1,19 +1,5 @@
 # runcsv
-A library allowing you to use an array of strings as runnable code, opening the door for a fully-featured and hackable spreadsheet software. This means that you can use a CSV file as a dynamic spreadsheet. The file  `runcsv.py`  is an example of using a CSV file as input and the output will be the resulting values after running the spreadsheet.
-
-Usage of `runcsv.py` is as follows:
-
-```bash
-usage: runcsv.py [-h] [-i I] [-o O]
-
-Process a CSV file
-
-optional arguments:
-  -h, --help  show this help message and exit
-  -i I        Input csv file
-  -o O        Output csv file
-
-```
+A library allowing you to use an array of strings as runnable code, opening the door for a fully-featured and hackable spreadsheet software. This means that you can use a CSV file as a dynamic spreadsheet. The example `runcsv-minimal  `  is an example of using a CSV file as input and the output will be the resulting values after running the spreadsheet.
 
 ## Structure
 

@@ -1,11 +1,12 @@
 import numpy as np
 import re
-import csv
+## HERE YOU CAN IMPORT ANY LIBRARY YOU WANT TO USE IN THE SPREADSHEET
 from matplotlib import pyplot as plt
 import random
+##
 
 parse_refs_regex = re.compile("(\*)?{(.*?),(.*?)}")
-# Initial size 10x10
+# Initial size put to 10x10
 s = np.ndarray([10,10], dtype=object)
 s.fill("")
 p = np.ndarray(s.shape, dtype=object)
