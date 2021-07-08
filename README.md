@@ -1,5 +1,5 @@
 # runcsv
-A library allowing you to use an array of strings as runnable code, opening the door for a fully-featured and hackable spreadsheet software. This means that you can use a CSV file as a dynamic spreadsheet. The example `runcsv-minimal  `  is an example of using a CSV file as input and the output will be the resulting values after running the spreadsheet.
+A library allowing you to use an array of strings as runnable code, opening the door for a fully-featured and hackable spreadsheet software. This means that you can use a CSV file as a dynamic spreadsheet. The example `runcsv-minimal  ` in my repositories is an example of using a CSV file as input and the output will be the resulting values after running the spreadsheet. A GUI Spreadsheet project is in progress in `runcsv-gui`.
 
 ## Structure
 
