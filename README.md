@@ -28,5 +28,5 @@ The example driver provided parses the CSV file as source (`s`) layer and output
 
 ## User interface
 
-This was designed as the engine for a spreadsheet software in development here
+This was designed as the engine for a spreadsheet software currently in development
 
